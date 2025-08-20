@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+        }
+        
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        }
+        
+        .btn {
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        body {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-users me-2"></i>Employee Management System
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/employees">
+                            <i class="fas fa-users me-1"></i>Employees
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/employees/new">
+                            <i class="fas fa-plus me-1"></i>Add Employee
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/h2-console" target="_blank">
+                            <i class="fas fa-database me-1"></i>Database
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Hero Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card bg-gradient-primary text-white">
+                    <div class="card-body text-center py-5">
+                        <h1 class="display-4 fw-bold mb-3">
+                            <i class="fas fa-users me-3"></i>Employee Management System
+                        </h1>
+                        <p class="lead mb-4">
+                            A comprehensive solution for managing employee information, tracking performance, 
+                            and generating insightful reports for your organization.
+                        </p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="/employees" class="btn btn-light btn-lg">
+                                <i class="fas fa-users me-2"></i>View Employees
+                            </a>
+                            <a href="/employees/new" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-plus me-2"></i>Add Employee
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4">System Features</h2>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-user-plus fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Employee Management</h5>
+                        <p class="card-text">
+                            Add, edit, and manage employee information including personal details, 
+                            employment history, and performance data.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-search fa-3x text-success"></i>
+                        </div>
+                        <h5 class="card-title">Advanced Search</h5>
+                        <p class="card-text">
+                            Powerful search and filtering capabilities to quickly find employees 
+                            by various criteria including department, status, and skills.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-chart-bar fa-3x text-info"></i>
+                        </div>
+                        <h5 class="card-title">Reports & Analytics</h5>
+                        <p class="card-text">
+                            Generate comprehensive reports and analytics on employee demographics, 
+                            department distribution, and salary statistics.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fas fa-bolt me-2"></i>Quick Actions
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <a href="/employees" class="btn btn-outline-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center py-4">
+                                    <i class="fas fa-list fa-2x mb-2"></i>
+                                    <span>View All Employees</span>
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="/employees/new" class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center py-4">
+                                    <i class="fas fa-user-plus fa-2x mb-2"></i>
+                                    <span>Add New Employee</span>
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="/api/employees" class="btn btn-outline-info w-100 h-100 d-flex flex-column align-items-center justify-content-center py-4">
+                                    <i class="fas fa-chart-pie fa-2x mb-2"></i>
+                                    <span>API Endpoint</span>
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="/h2-console" target="_blank" class="btn btn-outline-warning w-100 h-100 d-flex flex-column align-items-center justify-content-center py-4">
+                                    <i class="fas fa-database fa-2x mb-2"></i>
+                                    <span>Database Console</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Information -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i>System Information
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Technology Stack</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>Spring Boot 3.2.0</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Spring Data JPA</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Thymeleaf Templates</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>H2 Database</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Bootstrap 5</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Features</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>RESTful API</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Form Validation</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Search & Filtering</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Pagination</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Responsive Design</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Employee Management System</h5>
+                    <p class="mb-0">Built with Spring Boot and Thymeleaf</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">&copy; 2025 Employee Management System. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

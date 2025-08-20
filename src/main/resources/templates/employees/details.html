@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title th:text="${employee.fullName + ' - Employee Details'}">Employee Details</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-user text-primary me-2"></i>Employee Profile
+                </h1>
+                <p class="text-muted mb-0" th:text="${employee.fullName + ' - ' + employee.position}">
+                    Employee Name - Position
+                </p>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="/employees" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to List
+                </a>
+                <a th:href="@{/employees/{id}/edit(id=${employee.id})}" class="btn btn-warning">
+                    <i class="fas fa-edit me-2"></i>Edit Employee
+                </a>
+                <button type="button" class="btn btn-danger" 
+                        th:onclick="'confirmDelete(' + ${employee.id} + ', \'' + ${employee.fullName} + '\')'">
+                    <i class="fas fa-trash me-2"></i>Delete
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Main Employee Information -->
+            <div class="col-lg-8">
+                <!-- Employee Profile Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-id-card me-2"></i>Employee Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Employee Photo Placeholder -->
+                            <div class="col-md-3 text-center mb-3">
+                                <div class="avatar-large mx-auto mb-3">
+                                    <i class="fas fa-user fa-4x text-muted"></i>
+                                </div>
+                                <div class="d-grid">
+                                    <button class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-camera me-1"></i>Upload Photo
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Employee Details -->
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold text-muted">Full Name</label>
+                                        <p class="mb-0 fs-5" th:text="${employee.fullName}">Employee Name</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold text-muted">Employee ID</label>
+                                        <p class="mb-0 fs-5" th:text="${'#' + employee.id}">#123</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold text-muted">Department</label>
+                                        <span class="badge bg-primary fs-6" th:text="${employee.department.displayName}">Department</span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold text-muted">Position</label>
+                                        <p class="mb-0 fs-6" th:text="${employee.position}">Position</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold text-muted">Status</label>
+                                        <span th:class="${'badge fs-6 ' + (employee.status == T(com.employeems.enums.EmployeeStatus).ACTIVE ? 'bg-success' : 
+                                                                      employee.status == T(com.employeems.enums.EmployeeStatus).ON_LEAVE ? 'bg-warning' : 
+                                                                      employee.status == T(com.employeems.enums.EmployeeStatus).TERMINATED ? 'bg-danger' : 'bg-secondary')}"
+                                              th:text="${employee.status.displayName}">Status</span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold text-muted">Active Status</label>
+                                        <span th:class="${'badge fs-6 ' + (employee.isActive ? 'bg-success' : 'bg-danger')}"
+                                              th:text="${employee.isActive ? 'Active' : 'Inactive'}">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-address-book me-2"></i>Contact Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-muted">Email Address</label>
+                                <p class="mb-0">
+                                    <i class="fas fa-envelope text-primary me-2"></i>
+                                    <a th:href="'mailto:' + ${employee.email}" th:text="${employee.email}">email@example.com</a>
+                                </p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-muted">Phone Number</label>
+                                <p class="mb-0" th:if="${employee.phoneNumber}">
+                                    <i class="fas fa-phone text-primary me-2"></i>
+                                    <a th:href="'tel:' + ${employee.phoneNumber}" th:text="${employee.phoneNumber}">Phone</a>
+                                </p>
+                                <p class="mb-0 text-muted" th:if="${!employee.phoneNumber}">
+                                    <i class="fas fa-phone text-muted me-2"></i>Not provided
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employment Details -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-briefcase me-2"></i>Employment Details
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-muted">Hire Date</label>
+                                <p class="mb-0 fs-6" th:text="${#temporals.format(employee.hireDate, 'MMMM dd, yyyy')}">Hire Date</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-muted">Tenure</label>
+                                <p class="mb-0 fs-6">
+                                    <span th:text="${employee.tenureInYears + ' years, ' + (employee.tenureInMonths % 12) + ' months'}">0 years, 0 months</span>
+                                </p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-muted">Annual Salary</label>
+                                <p class="mb-0 fs-5 fw-bold text-success" th:text="${'$' + #numbers.formatDecimal(employee.salary, 1, 2)}">$0.00</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-muted">Monthly Salary</label>
+                                <p class="mb-0 fs-6" th:text="${'$' + #numbers.formatDecimal(employee.salary / 12, 1, 2)}">$0.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Information -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-database me-2"></i>System Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-muted">Created On</label>
+                                <p class="mb-0 fs-6" th:text="${#temporals.format(employee.createdAt, 'MMM dd, yyyy HH:mm')}">Created Date</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold text-muted">Last Updated</label>
+                                <p class="mb-0 fs-6" th:text="${#temporals.format(employee.updatedAt, 'MMM dd, yyyy HH:mm')}">Updated Date</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Quick Actions -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-bolt me-2"></i>Quick Actions
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a th:href="@{/employees/{id}/edit(id=${employee.id})}" class="btn btn-warning">
+                                <i class="fas fa-edit me-2"></i>Edit Employee
+                            </a>
+                            <button type="button" class="btn btn-outline-primary" onclick="window.print()">
+                                <i class="fas fa-print me-2"></i>Print Profile
+                            </button>
+                            <button type="button" class="btn btn-outline-info">
+                                <i class="fas fa-download me-2"></i>Export Data
+                            </button>
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="fas fa-envelope me-2"></i>Send Email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employee Statistics -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-chart-pie me-2"></i>Quick Stats
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="border-end">
+                                    <h4 class="text-primary mb-0" th:text="${employee.tenureInYears}">0</h4>
+                                    <small class="text-muted">Years</small>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h4 class="text-success mb-0" th:text="${'$' + #numbers.formatDecimal(employee.salary / 1000, 1, 0) + 'K'}">$0K</h4>
+                                <small class="text-muted">Annual</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-history me-2"></i>Recent Activity
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-success"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">Profile Updated</h6>
+                                    <p class="text-muted small mb-0" th:text="${#temporals.format(employee.updatedAt, 'MMM dd, HH:mm')}">Updated Date</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-primary"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">Employee Created</h6>
+                                    <p class="text-muted small mb-0" th:text="${#temporals.format(employee.createdAt, 'MMM dd, HH:mm')}">Created Date</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <strong id="employeeName"></strong>?</p>
+                    <p class="text-muted small">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteForm" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Delete Employee</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for delete confirmation -->
+    <script th:inline="javascript">
+        function confirmDelete(employeeId, employeeName) {
+            document.getElementById('employeeName').textContent = employeeName;
+            document.getElementById('deleteForm').action = '/employees/' + employeeId + '/delete';
+            
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
+        }
+    </script>
+</body>
+</html>
+
+
